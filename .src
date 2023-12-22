@@ -1,0 +1,2 @@
+alias gde="g-debug fr.hiroohg.project_qualdev/.MainActivity"
+alias gda="./gradlew assembleDebug"
