@@ -53,6 +53,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

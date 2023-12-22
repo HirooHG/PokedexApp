@@ -1,6 +1,7 @@
 package fr.hiroohg.project_qualdev
 
 import android.os.Bundle
+import androidx.core.view.WindowCompat
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,8 @@ import fr.hiroohg.project_qualdev.ui.theme.Project_qualdevTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.decorView.windowInsetsController?.hide(android.view.WindowInsets.Type.statusBars())
+
         setContent {
             Project_qualdevTheme {
                 // A surface container using the 'background' color from the theme
