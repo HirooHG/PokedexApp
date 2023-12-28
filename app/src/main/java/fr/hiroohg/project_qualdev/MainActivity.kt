@@ -3,14 +3,14 @@ package fr.hiroohg.project_qualdev
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import fr.hiroohg.project_qualdev.ui.theme.Project_qualdevTheme
+import fr.hiroohg.project_qualdev.PokemonApp
+import androidx.compose.ui.graphics.Color
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,23 +18,10 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       Project_qualdevTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-          Greeting("Android")
+        Surface(modifier = Modifier.fillMaxSize().background(Color(223, 223, 223) ), color = MaterialTheme.colorScheme.background) {
+          PokemonApp()
         }
       }
     }
   }
 }
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-  Text(text = "Hello $name!", modifier = modifier)
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-  Project_qualdevTheme { Greeting("Android") }
-}
-
