@@ -8,8 +8,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material.rememberSwipeableState
-import androidx.compose.material.swipeable
 import androidx.compose.material3.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.Alignment
@@ -54,7 +52,7 @@ fun PokemonsView(
             state = pullRefreshState,
             modifier = Modifier.align(Alignment.TopCenter),
             backgroundColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.background
+            contentColor = Color.White
         )
     }
 }

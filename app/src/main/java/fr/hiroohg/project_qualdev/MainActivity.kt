@@ -18,7 +18,10 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       Project_qualdevTheme {
-        Surface(modifier = Modifier.fillMaxSize().background(Color(223, 223, 223) ), color = MaterialTheme.colorScheme.background) {
+        Surface(
+          modifier = Modifier
+            .fillMaxSize(),
+        ) {
           PokemonApp()
         }
       }

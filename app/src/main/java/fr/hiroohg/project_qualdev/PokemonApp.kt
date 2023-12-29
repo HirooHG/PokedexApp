@@ -1,11 +1,14 @@
 package fr.hiroohg.project_qualdev
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -33,7 +36,13 @@ fun PokemonApp() {
       val pokemonVM: PokemonViewModel = viewModel()
       val pokemonUiState: PokemonUiState = pokemonVM.pokemonUiState
       val scrollState = rememberLazyListState()
-      NavHost(navController, startDestination = "Pokemons", Modifier.padding(10.dp)) {
+      NavHost(
+        navController,
+        startDestination = "Pokemons",
+        Modifier
+          .background(MaterialTheme.colorScheme.background)
+          .padding(10.dp)
+      ) {
         composable("Pokemons") { PokemonsView(navController, pokemonVM, scrollState) }
         composable("Pokemon/{id}") { entry ->
           PokemonView(entry.arguments?.getString("id"), navController, pokemonUiState)
