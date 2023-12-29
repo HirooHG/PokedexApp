@@ -1,26 +1,19 @@
 package fr.hiroohg.project_qualdev.view
 
-import android.annotation.SuppressLint
-import android.util.Log
-import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
-import androidx.compose.material3.CardElevation
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.CardDefaults
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.swipeable
+import androidx.compose.material3.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -28,40 +21,57 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.compose.currentBackStackEntryAsState
-import fr.hiroohg.project_qualdev.model.model.Pokemon
 import fr.hiroohg.project_qualdev.view_model.PokemonUiState
 import fr.hiroohg.project_qualdev.R
 import fr.hiroohg.project_qualdev.ui.theme.typesColors
 import fr.hiroohg.project_qualdev.ui.theme.typesImages
-import kotlin.reflect.typeOf
+import fr.hiroohg.project_qualdev.view_model.PokemonViewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PokemonsView(
     navController: NavHostController,
-    pokemonUiState: PokemonUiState
+    pokemonVM: PokemonViewModel,
+    scrollState: LazyListState
 ) {
-    when(pokemonUiState) {
-        is PokemonUiState.Loading -> LoadingView()
-        is PokemonUiState.Error -> ErrorView(pokemonUiState)
-        is PokemonUiState.Success -> ListView(pokemonUiState, navController)
+    val pokemonUiState: PokemonUiState = pokemonVM.pokemonUiState
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = pokemonUiState == PokemonUiState.Loading,
+        onRefresh = pokemonVM::getPokemons
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
+        when (pokemonUiState) {
+            is PokemonUiState.Loading -> LoadingView()
+            is PokemonUiState.Error -> ErrorView()
+            is PokemonUiState.Success -> ListView(pokemonUiState, navController, scrollState)
+        }
+        PullRefreshIndicator(
+            refreshing = pokemonUiState == PokemonUiState.Loading,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter),
+            backgroundColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.background
+        )
     }
 }
 
-@SuppressLint("RestrictedApi")
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ListView(
     state: PokemonUiState.Success,
-    navController: NavHostController
+    navController: NavHostController,
+    scrollState: LazyListState
 ) {
     val pokemons = state.pokemons
     LazyColumn(
+        state = scrollState,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(30.dp)
     ) {
         items(pokemons) { i ->
@@ -88,7 +98,7 @@ fun ListView(
                         fontWeight = FontWeight.Bold
                     )
                     LazyRow {
-                        items(i.types) {j ->
+                        items(i.types) { j ->
                             Image(
                                 painter = painterResource(id = typesImages[j]!!),
                                 contentDescription = i.name,
@@ -104,14 +114,20 @@ fun ListView(
     }
 }
 
-/// Pokemon Card
-
-
 /// Error and loading
-/// TODO: Refacto
 @Composable
-fun ErrorView(
-    state: PokemonUiState.Error
+fun ErrorView() {
+    OtherView(text = "There has been an error with the data, please contact the owner")
+}
+
+@Composable
+fun LoadingView() {
+    OtherView(text = "Loading some pokemons...")
+}
+
+@Composable
+fun OtherView(
+    text: String
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -134,34 +150,6 @@ fun ErrorView(
                 modifier = Modifier.fillMaxSize()
             )
         }
-        Text(text = "There has been an error with the data, please contact the owner")
+        Text(text = text)
     }
 }
-
-@Composable
-fun LoadingView() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .padding(20.dp)
-    ) {
-        Card(
-            modifier = Modifier
-                .size(200.dp)
-                .padding(10.dp),
-            shape = CircleShape
-        ) {
-            Image(
-                painterResource(R.drawable.poke_photo),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        Text(text = "Wainting for pokemons to arrive...")
-    }
-}
-

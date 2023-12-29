@@ -4,6 +4,7 @@ import android.view.Surface
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -11,10 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import fr.hiroohg.project_qualdev.model.model.Pokemon
 import fr.hiroohg.project_qualdev.ui.theme.typesColors
 import fr.hiroohg.project_qualdev.ui.theme.typesImages
 import fr.hiroohg.project_qualdev.view_model.PokemonUiState
@@ -71,43 +70,47 @@ fun PokemonView(
       verticalAlignment = Alignment.CenterVertically,
       modifier = Modifier.fillMaxWidth()
     ) {
-      IconButton(
-        modifier = Modifier
-          .border(
-            width = 2.dp,
-            shape = RoundedCornerShape(50.dp),
-            color = Color.White)
-          .size(50.dp),
-        onClick = {
-          if (pokemon.evolutions.before.isNotEmpty()) {
-            navController.navigate("Pokemon/${pokemon.evolutions.before.last()}")
+      pokemon.evolutions.before.isNotEmpty().let {
+        if(it) {
+          val evolBeforePokemon = pokemons.single { i ->
+            i.id == pokemon.evolutions.before.last()
           }
+          EvolutionComposable(evolBeforePokemon, navController)
         }
-      ) {
-        Icon(Icons.Filled.ArrowBack, contentDescription = "previous evolution")
       }
       Text(
         text = pokemon.name,
         fontSize = 25.sp
       )
-      IconButton(
-        modifier = Modifier
-          .border(
-            width = 2.dp,
-            shape = RoundedCornerShape(50.dp),
-            color = Color.White)
-          .size(50.dp),
-        onClick = {
-          if (pokemon.evolutions.after.isNotEmpty()) {
-            navController.navigate("Pokemon/${pokemon.evolutions.after.first()}")
+      pokemon.evolutions.after.isNotEmpty().let {
+        if(it) {
+          val evolAfterPokemon = pokemons.single { i ->
+            i.id == pokemon.evolutions.after.first()
           }
+          EvolutionComposable(evolAfterPokemon, navController)
         }
-      ) {
-        Icon(Icons.Filled.ArrowForward, contentDescription = "next evolution")
       }
     }
     Text(
       text = pokemon.description
     )
   }
+}
+
+@Composable
+fun EvolutionComposable(
+  pokemon: Pokemon,
+  navController: NavHostController
+) {
+  AsyncImage(
+    model = pokemon.image,
+    contentDescription = "evolution",
+    modifier = Modifier
+      .size(30.dp)
+      .clickable(
+        onClick = {
+          navController.navigate("Pokemon/${pokemon.id}")
+        }
+      )
+  )
 }

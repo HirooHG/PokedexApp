@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.hiroohg.project_qualdev.model.model.Pokemon
 import fr.hiroohg.project_qualdev.model.service.PokemonApi
+import kotlinx.coroutines.delay
 import java.io.IOException
 import java.lang.Exception
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class PokemonViewModel : ViewModel() {
   fun getPokemons() {
     viewModelScope.launch {
       pokemonUiState = PokemonUiState.Loading
+      delay(1_000L)
       pokemonUiState =
           try {
             val listResult = PokemonApi.retrofitService.getPokemons()
