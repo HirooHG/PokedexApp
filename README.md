@@ -6,5 +6,5 @@
  - [x] Scroll controller
  - [x] mini photo des évolution(click) -> go into pokemon page
  - [x] rafraichissement liste avec bouton et widget de chargement
- - [ ] photo dans la liste ?
+ - [x] photo dans la liste
  - [ ] test unitaire
