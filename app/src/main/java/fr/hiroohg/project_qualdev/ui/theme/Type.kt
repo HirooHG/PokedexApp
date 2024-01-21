@@ -8,17 +8,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import fr.hiroohg.project_qualdev.R
 
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily(
-            Font(R.font.ubuntu_bold, FontWeight.Bold),
-            Font(R.font.ubuntu_light, FontWeight.Light),
-            Font(R.font.ubuntu_medium, FontWeight.Medium),
-            Font(R.font.ubuntu_regular, FontWeight.Normal),
-        ),
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+val Typography =
+    Typography(
+        bodyLarge =
+            TextStyle(
+                fontFamily =
+                    FontFamily(
+                        Font(R.font.ubuntu_bold, FontWeight.Bold),
+                        Font(R.font.ubuntu_light, FontWeight.Light),
+                        Font(R.font.ubuntu_medium, FontWeight.Medium),
+                        Font(R.font.ubuntu_regular, FontWeight.Normal),
+                    ),
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                letterSpacing = 0.5.sp
+            )
     )
-)
+
