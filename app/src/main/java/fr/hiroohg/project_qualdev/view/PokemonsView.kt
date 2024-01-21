@@ -120,7 +120,7 @@ fun ListView(
 /// Error and loading
 @Composable
 fun ErrorView(ex: Exception) {
-  OtherView(text = "There has been an error with the data, please contact the owner: ${ex.message}")
+  OtherView(text = "There has been an error with the data, please contact the owner")
 }
 
 @Composable

@@ -30,7 +30,7 @@ interface PokemonService {
   suspend fun getPokemons(): List<Pokemon>
 }
 
-// static object instantiating a pokemon service
+// static object injecting a pokemon service
 object PokemonsApi {
   val service: PokemonService by lazy { retrofit.create(PokemonService::class.java) }
 }
