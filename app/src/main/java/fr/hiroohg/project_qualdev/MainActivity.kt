@@ -9,15 +9,11 @@ import androidx.compose.ui.Modifier
 import fr.hiroohg.project_qualdev.ui.theme.Project_qualdevTheme
 
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    setContent {
-      Project_qualdevTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-        ) { PokemonApp() }
-      }
+        setContent {
+            Project_qualdevTheme { Surface(modifier = Modifier.fillMaxSize()) { PokemonApp() } }
+        }
     }
-  }
 }
